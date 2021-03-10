@@ -1,4 +1,5 @@
 const { api } = require('../helpers/request')
+const { baseURL } = require('../common/constant')
 const cheerio = require('cheerio')
 const querystring = require('querystring');
 
@@ -12,29 +13,30 @@ class SearchResult {
 class Novel {
     constructor() {}
 
-    async search(name) {
-        const novelName = encodeURIComponent(name)
+    async searchAll(name) {
         const bookList = []
         const query = {
-            type: 'articlename',
-            q: name
+            searchkey: name
         }
-        const result = await api.novel.search.biquge(querystring.stringify(query))
-        if (result.data) {
+        for (const key in baseURL) {
+            let result
             try {
-                const $ = cheerio.load(result.data)
-                const info = $('.case_name').contents()
-                console.log(result.data)
-                console.log(info.length,1111111)
-                if (info.length > 0 && info[1]) {
-                    bookList.push(new SearchResult(info[1].text, info[1].href, encodeURIComponent('笔趣阁')))
-                }
+                result = await api.novel[key].search(querystring.stringify(query))
             } catch(err) {
-                console.log(3333)
                 console.log(err)
-                return err
+            }
+            if (result && result.data) {
+                try {
+                    const $ = cheerio.load(result.data)
+                    const info = $(baseURL[key].key).find('a')[0]
+                    if ($(info).attr('href')) bookList.push(new SearchResult($(info).text(), $(info).attr('href'), baseURL[key].name))
+                } catch(err) {
+                    // console.log(err)
+                    return err
+                }
             }
         }
+
         return bookList
     }
 }
