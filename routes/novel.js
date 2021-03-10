@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const https = require('https')
 const Novel = require('../server/novel')
 
 const novelServer = new Novel()

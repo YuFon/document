@@ -15,10 +15,13 @@ const request = (
     }
 
     return axios({
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
         method,
         url,
-        [dataName]: paramsObj,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+          },
+        data: paramsObj,
+        params: paramsObj,
         responseType: 'json',
         timeout: 120000
     });

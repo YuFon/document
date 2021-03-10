@@ -17,7 +17,7 @@ class Novel {
         const bookList = []
         const query = {
             type: 'articlename',
-            q: encodeURIComponent(name)
+            q: name
         }
         const result = await api.novel.search.biquge(querystring.stringify(query))
         if (result.data) {
