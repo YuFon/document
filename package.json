@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.5",
     "config-lite": "^3.0.0",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^4.2.2",

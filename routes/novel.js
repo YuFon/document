@@ -1,10 +1,14 @@
 const express = require('express')
 const router = express.Router()
+const https = require('https')
+const Novel = require('../server/novel')
 
-router.get('/get/:name', (req, res) => {
-    const name = req.params.name;
-    console.log(name)
-    res.send('query is ' + name)
+const novelServer = new Novel()
+router.get('/search/:name', async (req, res) => {
+    const { name } = req.params;
+    const result = await novelServer.search(name)
+    res.send(result)
 })
+
 
 module.exports = router
