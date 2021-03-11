@@ -3,9 +3,9 @@ const router = express.Router()
 const Novel = require('../server/novel')
 
 const novelServer = new Novel()
-router.get('/search/:name', async (req, res) => {
+router.get('/searchAll/:name', async (req, res) => {
     const { name } = req.params;
-    const result = await novelServer.search(name)
+    const result = await novelServer.searchAll(name)
     res.send(result)
 })
 

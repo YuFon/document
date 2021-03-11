@@ -5,6 +5,7 @@ const MongoStore = require('connect-mongo')(session)
 const config = require('config-lite')(__dirname)
 const routes = require('./routes')
 const app = express()
+require('./helpers/promiseSafe')
 
 app.use('/novel', routes.novel)
 app.use('/document', routes.documents)

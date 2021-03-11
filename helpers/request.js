@@ -1,36 +1,49 @@
-const axios = require('axios');
-
+const axios = require('axios')
+const { baseURL } = require('../common/constant')
 const request = (
+    baseURL = '',
+    contentType = 'application/json; charset=UTF-8'
+) => ( 
         method = 'post',
         url = '',
         paramsObj = {}
     ) => {
-    console.log(paramsObj)
-    let dataName = 'data';
+        let dataName = 'data';
 
-    if (method === 'get') {
-        dataName = 'params';
-    } else {
-        dataName = 'data';
+        if (method === 'get') {
+            dataName = 'params';
+        } else {
+            dataName = 'data';
+        }
+
+        return axios({
+            method,
+            url,
+            headers: {
+                'Content-Type': contentType
+            },
+            baseURL,
+            [dataName]: paramsObj,
+            responseType: 'json',
+            timeout: 120000
+        });
     }
-
-    return axios({
-        method,
-        url,
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-          },
-        data: paramsObj,
-        params: paramsObj,
-        responseType: 'json',
-        timeout: 120000
-    });
-};
+const requestList = {}
+for (key in baseURL) {
+    requestList[`${key}`] = request(baseURL[key].url, baseURL.biquge.contentType)
+}
 
 const api = {
     novel: {
-        search: {
-            biquge(data) { return request('post', 'http://m.loubiqu.com/modules/article/search.php', data)}
+        biquge: {
+            search(data) {
+                return requestList.biquge('post', '/search', data)
+            }
+        },
+        soshuw: {
+            search(data) {
+                return requestList.soshuw('post', '/search.html', data)
+            }
         }
     }
 }
