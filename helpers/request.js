@@ -29,8 +29,8 @@ const request = (
         });
     }
 const requestList = {}
-for (key in baseURL) {
-    requestList[`${key}`] = request(baseURL[key].url, baseURL.biquge.contentType)
+for (item of baseURL) {
+    requestList[`${item.shortName}`] = request(item.url, item.contentType)
 }
 
 const api = {
