@@ -8,6 +8,10 @@ router.get('/searchAll/:name', async (req, res) => {
     const result = await novelServer.searchAll(name)
     res.send(result)
 })
-
+router.get('/getMenu/:name', async (req, res) => {
+    const { name } = req.params;
+    const result = await novelServer.getMenu(name)
+    res.send(result)
+})
 
 module.exports = router
